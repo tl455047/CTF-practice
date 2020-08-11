@@ -8,6 +8,7 @@ What could possibly go wrong?
 You there, may I have your input please? And don't worry about null bytes, we're using read()!
 
 It also tells us that there is a function named ret2win and will cat the flag.txt. Therefore,  we only need to overwrite the return address to the address of the syscall in ret2win function.
+
 Use gdb to gather information.
 ```
 gdb ./ret2win
