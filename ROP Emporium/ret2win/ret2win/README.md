@@ -26,6 +26,7 @@ PIE       : disabled
 RELRO     : Partial
 ```
 No canary, no pie.
+
 List all functions.
 ```
 gdb$ info functions
@@ -38,6 +39,7 @@ gdb$ info functions
 ...
 ```
 There is indeed a function called ret2win.
+
 Disassemble ret2win to obtain the return address.
 ```
 gdb$ disas ret2win 
