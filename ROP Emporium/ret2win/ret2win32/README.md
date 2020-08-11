@@ -106,7 +106,7 @@ gdb$ c
 0000| 0xffffd50c --> 0x8048590 (<main+74>:      sub    esp,0xc)
 ...
 ```
-Now, we know the overflow length is0xffffd50c - 0xffffd4e0 = 0x2c = 44.
+Now, we know the overflow length is 0xffffd50c - 0xffffd4e0 = 0x2c = 44.
 
 Therefore, the overflow strings will be:
 ```
