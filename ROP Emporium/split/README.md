@@ -24,7 +24,7 @@ However, the syscall command is not "/bin/cat flag.txt", "but /bin/ls".
          ff ff
 ...
 ```
-Therefore, need to modify the command in the syscall, try to assign "/bin/cat flag.txt" to the register edi(x86 64 first argument).
+Therefore, need to modify the command in the syscall, try to assign "/bin/cat flag.txt" to the register edi(x86 64 first argument)(edi 32bit, rdi 64bit).
 
 Use ghidra to find "/bin/cat flag.txt" in binary.
 ```
@@ -38,7 +38,7 @@ Use ghidra to find "/bin/cat flag.txt" in binary.
 ```
 We find the string "/bin/cat flag.txt" in address 0x00601060.
 
-Now, we need to find a instruction such as "pop rdi" or "pop edi" with ret to assign this address to EDI register.
+Now, we need to find a instruction such as "pop rdi" or "pop edi" with ret to assign this address to edi register.
 
 Use rop command in peda-gdb.
 ```
@@ -59,15 +59,15 @@ Next, the process should return to the gadget we found before, which will be:
 ```
 '\xc3\x07\x40\x00\x00\x00\x00\x00' //return address jump to the gadget we want. In this case is, pop rdi; ret;
 ```
-Then, we need to push the "/bin/cat flag.txt" address into stack, which will be pop into EDI register later:
+Then, we need to push the "/bin/cat flag.txt" address into stack, which will be pop into edi register later:
 ```
-'\x60\x10\x60\x00\x00\x00\x00\x00' //the value we want to pop into rdi register. In this case is the address of string "/bin/cat flag.txt".
+'\x60\x10\x60\x00\x00\x00\x00\x00' //the value we want to pop into edi register. In this case is the address of string "/bin/cat flag.txt".
 ```
-Now, we successfully assign the command we want into the EDI register, we can return to the syscall place to executer syscall.
+Now, we successfully assign the command we want into the edu register, we can return to the syscall place to executer syscall.
 ```
 '\x4b\x07\x40\x00\x00\x00\x00\x00' //return address jump to the syscall. It will execute the command we assign to rdi.
 ```
-Remember, we should directly jump to call system instruction. If we jump to the instruction right before it, the argument in EDI will be modified to "/bin/ls" again. 
+Remember, we should directly jump to call system instruction. If we jump to the instruction right before it, the argument in edi will be modified to "/bin/ls" again. 
 
 The overflow string will be:
 ```
