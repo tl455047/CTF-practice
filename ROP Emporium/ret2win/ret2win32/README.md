@@ -120,3 +120,4 @@ It will show the flag:
 ```
 ROPE{a_placeholder_32byte_flag!}
 ```
+Or sue ghidra to see the reverse code, will found that the buffer used to read input is infact 0x28 not 0x20. Therefore, the overflow length will be 40 bytes(buffer) + 4 bytes (RBP) = 44 bytes.
