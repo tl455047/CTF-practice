@@ -1,5 +1,5 @@
 ### split
-The problem guides has told you that same as ret2win, there is a 0x20 buffer, can be overflowed, and there is still a syscall in a function named usefulFunction.
+The problem guides has told you that same as ret2win, there is a 0x20 buffer, which can be overflowed, and there is still a syscall in a function named usefulFunction.
 
 First, check the binarat security.
 ```
