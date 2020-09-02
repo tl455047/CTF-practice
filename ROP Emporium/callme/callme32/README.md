@@ -35,7 +35,7 @@ x86 use stack to pass function arguments, therefore, we need to push three argum
 ```
 However, if we use this format directly, we will get segmentation fault. 
 
-This is because we do not pop the stack correctly. For a function call, we need to push and pop the function arguments by ourselves, and patter upward we do not pop argumnents out the stack, then the next return address will be wrong.
+This is because we do not pop the stack correctly. For a function call, we need to push and pop the function arguments by ourselves. Pattern upward we do not pop argumnents out the stack, then the next return address will be wrong.
 
 Therefore, we need to pop the argument out for every function call:
 ```
@@ -53,7 +53,7 @@ int               Stack[0xc]:4   param_3                                 XREF[1]
 ```
 This means that the function actually get the arguments from sp+4, sp+8, sp+12, where sp+0 we can use it to do pop operation.
 
-We find the proper gadget using rop command in gdb-peda, since we have three arguments, we need a pop three times gadget, or three one time pop gadget.  
+We find the proper gadget using rop command in gdb-peda, since we have three arguments, we need a pop three-times gadget, or three one-time pop gadget.  
 ```
 ...
 0x080487f9 : pop esi ; pop edi ; pop ebp ; ret
