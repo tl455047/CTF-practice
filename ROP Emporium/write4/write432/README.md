@@ -38,7 +38,7 @@ We find two suitable gadgets.
 ```
 Firstly, we need to pop the address of data section and string "flag.txt" into edi, ebp by using gadget #pop edi ; pop ebp ; ret, and then use gadget #mov dword ptr [edi], ebp ; ret to move the string value to the data section.
 
-Since x86 register can only store 4 bytes value one time, and the string we want to write to the data section is "flag.txt", which is 8 bytes, we need to the write operation two times.
+Since x86 register can only store 4 bytes value one time, and the string we want to write to the data section is "flag.txt", which is 8 bytes, we need to do the write operation two times.
 
 Next, using ghidra, we know that print_file function obtain argument from stack. Therefore, we only need to push the address of data section into stack. 
 
