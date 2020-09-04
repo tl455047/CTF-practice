@@ -52,7 +52,7 @@ peda$ plt
 Breakpoint 1 at 0x400510 (print_file@plt)
 Breakpoint 2 at 0x400500 (pwnme@plt)
 ```
-Now, we can build out payload, same as problem before, there is a 32 bytes buffer, and 8 bytes rbp.
+Now, we can build our payload, same as problem before, there is a 32 bytes buffer, and 8 bytes rbp.
 ```
 'A'*40
 ```
