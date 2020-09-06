@@ -54,7 +54,7 @@ Same as before, there is a 32 bytes buffer, and 8 bytes rbp.
 ```
 Pop string 'fl`f/tyt' and data section address to r12 r13, and xor byte and data section byte address into r14 and r15.
 ```
-p64(gadget1) + r15 + p64(dataSect) + p64(0x1) + p64(dataSect+2)
+p64(gadget1) + b'fl`f/tyt' + p64(dataSect) + p64(0x1) + p64(dataSect+2)
 ```
 Write to data section and do xor opeation to 'a' byte.
 ```
