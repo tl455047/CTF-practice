@@ -39,7 +39,7 @@ b'flag.txt' >>> b'fl`f/tyt'
 ```
 Now, we can build our payload:
 
-Firstly, write the xor string "" to data section, then do byte xor operation to ech byte to string, finally, pop the string address to rdi, and call print_file.
+Firstly, write the xor string 'gm`f/uyu' to data section, then do byte xor operation to each byte to string, finally, pop the string address to rdi, and call print_file.
 
 Same as before, there is a 32 bytes buffer, and 8 bytes rbp.
 ```
