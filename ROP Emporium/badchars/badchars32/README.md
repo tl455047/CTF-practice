@@ -62,7 +62,7 @@ Firstly, write the xor string 'fl`f' to data section, then do byte xor operation
 
 Same as before, there is a 40 bytes buffer, and 4 bytes ebp.
 ```
-'A'*43
+'A'*44
 ```
 Pop string 'fl`f' and data section address to esi edi, and xor byte and data section byte address into bl(ebx) and ebp.
 ```
