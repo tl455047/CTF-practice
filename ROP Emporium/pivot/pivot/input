@@ -1,0 +1,26 @@
+[x] Starting local process './pivot'
+[+] Starting local process './pivot': pid 23714
+[*] running in new terminal: /usr/bin/gdb -q  "./pivot" 23714 -x /tmp/pwnahWLcl.gdb
+[x] Waiting for debugger
+[-] Waiting for debugger: debugger exited! (maybe check /proc/sys/kernel/yama/ptrace_scope)
+[*] '/home/yang/rop Emporium/pivot/pivot'
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    No canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+    RUNPATH:  '.'
+[*] '/home/yang/rop Emporium/pivot/libpivot.so'
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    No canary found
+    NX:       NX enabled
+    PIE:      PIE enabled
+6295584
+4196064
+[*] Switching to interactive mode
+Thank you!
+
+Now please send your stack smash
+> [*] Interrupted
+[*] Stopped process './pivot' (pid 23714)
