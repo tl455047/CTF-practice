@@ -12,7 +12,7 @@ PIE沒開,表示我們可以找到正確的address跟plt.got table.
 
 稍微disas 看一下發現沒有什麼可以直接用的function,再看一下plt table,發現有puts@plt, 我們可以利用puts function來leak libc address,然後算出base address,再得到system的address.
 
-我們要進行兩次overflow,第一次利用puts function印出puts在got table的address,得到libc這次執行的address,由於每次執行base address都不一樣,所以我們要在跳回到main的起點再運行一次程式，這樣base address仍會一樣.
+我們要進行兩次overflow,第一次利用puts function印出puts在got table的address,得到libc這次執行的address,由於每次執行base address都不一樣,所以我們要跳回到main的起點再運行一次程式，這樣base address仍會一樣.
 
 第一次的payload:
 ```
@@ -23,7 +23,7 @@ align_gadget = 0x00400646 # ret;
 payload = b'A'*88 + p64(align_gadget) + p64(gadget2) + p64(got_puts) + p64(plt_puts) + p64(main)  
 ...
 ```
-透過ghidra或是gdb可以得到overflow的offset是88 bytes,由於x86 64在呼叫library function時會有stack alignment的問題,所以使用一個只有ret;的gadget來使stack align,然後呼叫puts function印出puts在got tableg上記錄的address,扣掉puts function在libc中的offset就能得到base address,再加上system的offset就能得到system的address.
+透過ghidra或是gdb可以得到overflow的offset是88 bytes,由於x86 64在呼叫library function時會有stack alignment的問題,所以使用一個只有ret;的gadget來使stack align,然後呼叫puts function印出puts在got table上記錄的address,扣掉puts function在libc中的offset就能得到base address,再加上system的offset就是system的address.
 
 透過以下code得到base address跟system function address:
 ```
