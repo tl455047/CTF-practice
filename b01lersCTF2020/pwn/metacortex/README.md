@@ -35,7 +35,7 @@ lVar1 = *local_30; //cannot be modified
 iVar2 = atoi(local_28,puVar4[-0x58]); //obtain from read
 ...
 ```
-iVal2 value is obtained from read, which can be controlled, the problem is lVar1, this value cannot be modified directly, we look at the position of variables in stack.
+iVar2 value is obtained from read, which can be controlled, the problem is lVar1, this value cannot be modified directly, we look at the position of variables in stack.
 ```
 ...
 long lVar1;
@@ -48,13 +48,13 @@ We found that the read bufferr local_28 is lower than variable lVar1, which mean
 
 read syscall will read length bytes, even through it meets bytes '\x00'. atoi will stop when it meets '\x00'. Then we can use the value before '\x00' to control iVar2, and use bytes after it to overflow lVar1 value.
 
-We can set 0x4141414141414141 + '\x00' to variable iVal2, and use 'A'*n to overflow the stack, if we overflow the variable lVar1 correctly, the value of lVar1 will be 'A'*8 = 0x4141414141414141.
+We can set 0x4141414141414141 + '\x00' to variable iVar2, and use 'A'*n to overflow the stack, if we overflow the variable lVar1 correctly, the value of lVar1 will be 'A'*8 = 0x4141414141414141.
 
 The payload will be:
 ```
 ...
 #0x4141414141414141 = 4702111234474983745
-payload = b'4702111234474983745\x00' + b'A'*70 # set value to iVal2, and overflow the value of lVar1
+payload = b'4702111234474983745\x00' + b'A'*70 # set value to iVar2, and overflow the value of lVar1
 ...
 ```
 Execute exploit.py, we can get the shell.
